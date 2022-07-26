@@ -1,5 +1,15 @@
 //i need a event for page changes
-let pageChangesObserver = new ResizeObserver(() => {
+
+while (true) {
+  setTimeout(() => {
+    if (querySelector('[data-uia="player-skip-intro"]')) {
+      document.querySelector('[data-uia="player-skip-intro"]').click();
+    }
+  }, 1000);
+}
+
+
+/*let pageChangesObserver = new ResizeObserver(() => {
   try {
     document.querySelector('[data-uia="player-skip-intro"]').click();
   } catch (error) {
@@ -7,6 +17,7 @@ let pageChangesObserver = new ResizeObserver(() => {
   }
 });
   
+/*
 function startup()
 {
   try {
