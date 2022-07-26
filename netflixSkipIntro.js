@@ -58,7 +58,6 @@ var observePlayer = new MutationObserver(function(mutations) {
       player.querySelector('[data-uia="next-episode-seamless-button"]').click();
     } 
     else {
-      console.log(mutations)
     }
 });
 
