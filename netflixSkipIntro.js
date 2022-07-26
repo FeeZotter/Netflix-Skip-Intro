@@ -1,13 +1,5 @@
 //i need a event for page changes
 
-while (true) {
-  setTimeout(() => {
-    if (querySelector('[data-uia="player-skip-intro"]')) {
-      document.querySelector('[data-uia="player-skip-intro"]').click();
-    }
-  }, 1000);
-}
-
 
 /*let pageChangesObserver = new ResizeObserver(() => {
   try {
