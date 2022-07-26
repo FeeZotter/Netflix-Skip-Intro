@@ -6,8 +6,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.netflix.com/watch/*"],
-      "js": ["netflixSkipIntro.js"],
-      "run_at": "document_end"
+      "js": ["netflixSkipIntro.js"]
     }
   ],
   "permissions": ["activeTab"],
