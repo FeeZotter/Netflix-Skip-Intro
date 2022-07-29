@@ -30,11 +30,10 @@ var observePlayer = new MutationObserver(function(mutations) {
     } 
     else if (document.querySelector('[data-uia="interrupt-autoplay-continue"]') !== null) {
       setTimeout(() => {
-        document.querySelector('[data-uia="interrupt-autoplay-continue"]').click();
         console.log('interruption skipped')
+        document.querySelector('[data-uia="interrupt-autoplay-continue"]').click();
         console.log('timeout with 5 seconds tor testing purposes')
       }, 5000);
-      setId(0);
     }
     else if (document.querySelector('[data-uia="next-episode-seamless-button"]') !== null) {
       console.log('outro skipped')
