@@ -6,31 +6,34 @@
 //THAN if it contains 'data-uia="player-skip-intro"' -> click skip intro button
 //THAN if it contains 'data-uia="player-skip-recap"' -> click skip recap button
 
-var player
+var element
 
-function startup() {
+var observeElement = ['[data-uia="player"]']
+var observeElementId = ['player']
+
+function setId(index) {
   //if 'data-uia="player"' exists
-  if(document.querySelector('[data-uia="player"]') !== null) {
+  if(document.querySelector(observeElement[index]) !== null) {
     //set id of 'data-uia="player"' = 'player' 
-    document.querySelector('[data-uia="player"]').setAttribute('id', 'player')
-    setPlayer();
+    document.querySelector(observeElement[index]).setAttribute('id', observeElementId[index])
+    setPlayer(index);
   }
   else {
     //try again after 1 second if 'data-uia="player"' not exists
     setTimeout(() => {
-      startup();
+      setId(index);
     }, 1000);
   }
 }
 
-function setPlayer () {
+function setPlayer (index) {
   //if id 'player' exists
-  if(document.getElementById('player') !== null) {
+  if(document.getElementById(observeElementId[index]) !== null) {
     //set player = element of id player
-    player = document.getElementById('player');
+    element = document.getElementById(observeElementId[index]);
     //start observation of player and throw events if something changes
-    observePlayer.observe(player, {
-      childList    : true, 
+    observePlayer.observe(element, {
+      childList    : true,
       attributes   : true,
       characterData: true
     });
@@ -38,31 +41,37 @@ function setPlayer () {
   else {
     //try again after 0.2 seconds if id 'player' not exist
     setTimeout(() => {
-      setPlayer();
+      setPlayer(index);
     }, 200);
   }
 }
 
 //if event triggers
 var observePlayer = new MutationObserver(function(mutations) { 
-    if (player.querySelector('[data-uia="player-skip-intro"]') !== null) {
+    if (element.querySelector('[data-uia="player-skip-intro"]') !== null) {
       console.log('intro skipped')
-      player.querySelector('[data-uia="player-skip-intro"]').click();
+      element.querySelector('[data-uia="player-skip-intro"]').click();
     } 
-    else if (player.querySelector('[data-uia="player-skip-recap"]') !== null) {
+    else if (element.querySelector('[data-uia="player-skip-recap"]') !== null) {
       console.log('recap skipped')
-      player.querySelector('[data-uia="player-skip-recap"]').click();
+      element.querySelector('[data-uia="player-skip-recap"]').click();
     } 
-    else if (player.querySelector('[data-uia="next-episode-seamless-button"]') !== null) {
+    else if (element.querySelector('[data-uia="next-episode-seamless-button"]') !== null) {
       console.log('outro skipped')
-      player.querySelector('[data-uia="next-episode-seamless-button"]').click();
+      element.querySelector('[data-uia="next-episode-seamless-button"]').click();
     } 
-    else {
+    else if (document.querySelector('[data-uia="interrupt-autoplay-continue"]') !== null) {
+      setTimeout(() => {
+        document.querySelector('[data-uia="interrupt-autoplay-continue"]').click();
+        console.log('interruption skipped')
+        console.log('timeout with 5 seconds tor testing purposes')
+      }, 5000);
+      setId(0);
     }
 });
 
 //start startup after everything is loaded
-startup();
+setId(0);
 
 /**************************************************************************************/
 /**************************************************************************************/
