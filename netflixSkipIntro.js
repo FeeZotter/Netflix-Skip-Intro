@@ -1,4 +1,4 @@
-function setObserver () {
+function startObserver() {
   //if id 'player' exists
   if(document.getElementById('appMountPoint') !== null) {
     //start observation of player and throw events if something changes
@@ -12,7 +12,7 @@ function setObserver () {
   else {
     //try again after 0.2 seconds if id 'player' not exist
     setTimeout(() => {
-      setObserver();
+      startObserver();
     }, 200);
   }
 }
@@ -42,9 +42,7 @@ var observePlayer = new MutationObserver(function(mutations) {
     }
 });
 
-//start startup after everything is loaded
-//setId(0);
-setObserver();
+startObserver();
 /**************************************************************************************/
 /**************************************************************************************/
 /*! jQuery v3.6.0 | (c) OpenJS Foundation and other contributors | jquery.org/license */
