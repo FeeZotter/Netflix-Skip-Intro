@@ -1,30 +1,3 @@
-//check every second if document with 'data-uia="player"' exists
-//THAN set id of document with 'data-uia="player"' to 'player'
-//THAN check every 0.2 seconds if document with id 'player' exists
-//THAN save document 'player' in variable player
-//THAT start observe if childs of document with id 'player' changes
-//THAN if it contains 'data-uia="player-skip-intro"' -> click skip intro button
-//THAN if it contains 'data-uia="player-skip-recap"' -> click skip recap button
-
-
-var observeElement = ['[data-uia="player"]']
-var observeElementId = ['player']
-
-function setId(index) {
-  //if 'data-uia="player"' exists
-  if(document.querySelector(observeElement[index]) !== null) {
-    //set id of 'data-uia="player"' = 'player' 
-    document.querySelector(observeElement[index]).setAttribute('id', observeElementId[index])
-    setObserver();
-  }
-  else {
-    //try again after 1 second if 'data-uia="player"' not exists
-    setTimeout(() => {
-      setId(index);
-    }, 1000);
-  }
-}
-
 function setObserver () {
   //if id 'player' exists
   if(document.getElementById('appMountPoint') !== null) {
@@ -46,7 +19,7 @@ function setObserver () {
 
 //if event triggers
 var observePlayer = new MutationObserver(function(mutations) { 
-    console.log(mutations)
+   // console.log(mutations) //for debugging
     if (document.querySelector('[data-uia="player-skip-intro"]') !== null) {
       console.log('intro skipped')
       document.querySelector('[data-uia="player-skip-intro"]').click();
