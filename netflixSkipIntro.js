@@ -1,12 +1,11 @@
-//check every second if element with 'data-uia="player"' exists
-//THAN set id of element with 'data-uia="player"' to 'player'
-//THAN check every 0.2 seconds if element with id 'player' exists
-//THAN save element 'player' in variable player
-//THAT start observe if childs of element with id 'player' changes
+//check every second if document with 'data-uia="player"' exists
+//THAN set id of document with 'data-uia="player"' to 'player'
+//THAN check every 0.2 seconds if document with id 'player' exists
+//THAN save document 'player' in variable player
+//THAT start observe if childs of document with id 'player' changes
 //THAN if it contains 'data-uia="player-skip-intro"' -> click skip intro button
 //THAN if it contains 'data-uia="player-skip-recap"' -> click skip recap button
 
-var element
 
 var observeElement = ['[data-uia="player"]']
 var observeElementId = ['player']
@@ -16,7 +15,7 @@ function setId(index) {
   if(document.querySelector(observeElement[index]) !== null) {
     //set id of 'data-uia="player"' = 'player' 
     document.querySelector(observeElement[index]).setAttribute('id', observeElementId[index])
-    setPlayer(index);
+    setObserver();
   }
   else {
     //try again after 1 second if 'data-uia="player"' not exists
@@ -26,39 +25,35 @@ function setId(index) {
   }
 }
 
-function setPlayer (index) {
+function setObserver () {
   //if id 'player' exists
-  if(document.getElementById(observeElementId[index]) !== null) {
-    //set player = element of id player
-    element = document.getElementById(observeElementId[index]);
+  if(document.getElementById('appMountPoint') !== null) {
     //start observation of player and throw events if something changes
-    observePlayer.observe(element, {
+    observePlayer.observe(document.getElementById('appMountPoint'), {
       childList    : true,
       attributes   : true,
-      characterData: true
+      characterData: true,
+      subtree      : true
     });
   }
   else {
     //try again after 0.2 seconds if id 'player' not exist
     setTimeout(() => {
-      setPlayer(index);
+      setObserver();
     }, 200);
   }
 }
 
 //if event triggers
 var observePlayer = new MutationObserver(function(mutations) { 
-    if (element.querySelector('[data-uia="player-skip-intro"]') !== null) {
+    console.log(mutations)
+    if (document.querySelector('[data-uia="player-skip-intro"]') !== null) {
       console.log('intro skipped')
-      element.querySelector('[data-uia="player-skip-intro"]').click();
+      document.querySelector('[data-uia="player-skip-intro"]').click();
     } 
-    else if (element.querySelector('[data-uia="player-skip-recap"]') !== null) {
+    else if (document.querySelector('[data-uia="player-skip-recap"]') !== null) {
       console.log('recap skipped')
-      element.querySelector('[data-uia="player-skip-recap"]').click();
-    } 
-    else if (element.querySelector('[data-uia="next-episode-seamless-button"]') !== null) {
-      console.log('outro skipped')
-      element.querySelector('[data-uia="next-episode-seamless-button"]').click();
+      document.querySelector('[data-uia="player-skip-recap"]').click();
     } 
     else if (document.querySelector('[data-uia="interrupt-autoplay-continue"]') !== null) {
       setTimeout(() => {
@@ -68,11 +63,15 @@ var observePlayer = new MutationObserver(function(mutations) {
       }, 5000);
       setId(0);
     }
+    else if (document.querySelector('[data-uia="next-episode-seamless-button"]') !== null) {
+      console.log('outro skipped')
+      document.querySelector('[data-uia="next-episode-seamless-button"]').click();
+    }
 });
 
 //start startup after everything is loaded
-setId(0);
-
+//setId(0);
+setObserver();
 /**************************************************************************************/
 /**************************************************************************************/
 /*! jQuery v3.6.0 | (c) OpenJS Foundation and other contributors | jquery.org/license */
