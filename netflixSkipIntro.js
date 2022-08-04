@@ -38,6 +38,10 @@ var observePlayer = new MutationObserver(function(mutations) {
     else if (document.querySelector('[data-uia="next-episode-seamless-button"]') !== null) {
       console.log('outro skipped')
       document.querySelector('[data-uia="next-episode-seamless-button"]').click();
+    } else if (document.querySelector('aria-label="Play"') !== null)
+    {
+      console.log('play pressed')
+      document.querySelector('aria-label="Play"').click();
     }
 });
 
