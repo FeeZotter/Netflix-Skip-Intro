@@ -5,7 +5,7 @@
   "manifest_version": 3,
   "content_scripts": [
     {
-      "matches": ["*://*.netflix.com/watch/*"],
+      "matches": ["*://*.netflix.com/*"],
       "js": ["netflixSkipIntro.js"]
     }
   ],
